@@ -1,0 +1,16 @@
+{
+  "name": "Indian Camping Community",
+  "short_name": "ICC",
+  "description": "Explore the Wild, Connect with the Tribe.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#060b08",
+  "theme_color": "#113f27",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}

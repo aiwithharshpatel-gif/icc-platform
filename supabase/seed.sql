@@ -1,0 +1,16 @@
+-- Truncate existing data to prevent primary key collisions on re-runs
+TRUNCATE TABLE public.campsites CASCADE;
+TRUNCATE TABLE public.events CASCADE;
+
+-- Insert Campsites
+INSERT INTO public.campsites (id, title, location, price, rating, reviews_count, terrain, tags, image_url, description, amenities) VALUES
+('c1', 'Riverside Echoes', 'Rishikesh, Uttarakhand', 1800, 4.8, 124, 'Riverside', ARRAY['Riverside', 'Rafting', 'Bonfire'], 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=800&q=80', 'Camp along the holy Ganges river, wake up to nature sounds, and experience exhilarating river rafting adventures.', ARRAY['Running Water', 'First Aid', 'Bonfire Pit', 'Toilets']),
+('c2', 'Pine Meadows', 'Kasol, Himachal Pradesh', 1500, 4.9, 86, 'Mountain', ARRAY['Mountain', 'Trekking', 'Forest'], 'https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?auto=format&fit=crop&w=800&q=80', 'Nestled in the lush valleys of Parvati River, this campsite is surrounded by towering pines and snow-covered peaks.', ARRAY['First Aid', 'Bonfire Pit', 'Kitchen Access', 'Toilets']),
+('c3', 'Lake Breeze camp', 'Lonavala, Maharashtra', 2200, 4.7, 142, 'Lakeside', ARRAY['Lakeside', 'Water Sports', 'Sunset Point'], 'https://images.unsplash.com/photo-1537905569824-f89f14cceb68?auto=format&fit=crop&w=800&q=80', 'Beautiful lakeside tents looking over Pawna Lake. Catch the perfect sunrise and indulge in fresh local Maharashtrian cuisine.', ARRAY['Running Water', 'First Aid', 'Bonfire Pit', 'Toilets', 'Charging Points']),
+('c4', 'Golden Sands camping', 'Gokarna, Karnataka', 2500, 4.6, 98, 'Beachside', ARRAY['Beach', 'Stargazing', 'Surfing'], 'https://images.unsplash.com/photo-1496080174650-637e3f22fa03?auto=format&fit=crop&w=800&q=80', 'Sleep under the stars to the sound of breaking waves on Gokarnas famous paradise beach. Perfect for beach treks and surfing.', ARRAY['Running Water', 'First Aid', 'Toilets', 'Wi-Fi Zone']);
+
+-- Insert Events
+INSERT INTO public.events (id, title, location, date, price, guide, guide_title, capacity, availability, status, image_url, description) VALUES
+('e1', 'Monsoon Trek & Camp', 'Harishchandragad, MH', 'July 15-16, 2026', 2200, 'Sameer Joshi', 'Western Ghats Specialist', '25 Campers', '8 Slots Left', 'Upcoming', 'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=800&q=80', 'Experience the monsoon beauty of Harishchandragad fort, camp above the clouds, and view the iconic Kokankada cliff.'),
+('e2', 'High Altitude Expedition', 'Hampta Pass, HP', 'Aug 10-15, 2026', 9500, 'Aryan Negi', 'Himalayan Guide', '15 Campers', '4 Slots Left', 'Upcoming', 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80', 'Cross the lush green valleys of Kullu to the stark high-altitude deserts of Spiti Valley over the glorious Hampta Pass.'),
+('e3', 'Beach Trek & Stargazing', 'Gokarna, Karnataka', 'Sept 04-06, 2026', 4500, 'Priya Nair', 'Coastal Trek Leader', '30 Campers', '12 Slots Left', 'Upcoming', 'https://images.unsplash.com/photo-1510312305653-8ed496efae75?auto=format&fit=crop&w=800&q=80', 'A weekend coastal beach trek covering Om Beach, Half Moon Beach, and Paradise Beach, topped with astronomical stargazing sessions.');
