@@ -18,7 +18,7 @@ export function Introduction() {
     },
     {
       icon: <HeartHandshake className="h-8 w-8 text-emerald-500" />,
-      title: "Authentic Tribal Bonding",
+      title: "Authentic Community Bonding",
       description:
         "From cooking together over a bonfire to setting up tents on stormy ridges, we cultivate a non-judgmental environment of sharing and collaboration.",
     },
