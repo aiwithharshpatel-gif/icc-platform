@@ -2,6 +2,42 @@ import { createClient } from "@/lib/supabase/server";
 import { CampsitesView } from "./campsites-view";
 import type { Metadata } from "next";
 
+interface DBCampsiteReview {
+  id: string;
+  name: string;
+  rating: number;
+  comment: string;
+  date: string;
+}
+
+interface DBCampsite {
+  id: string;
+  title: string;
+  location: string;
+  price: string | number;
+  rating?: string | number;
+  reviews_count?: string | number;
+  terrain: string;
+  tags?: string[];
+  image_url: string;
+  description: string;
+  amenities?: string[];
+  gallery?: string[];
+  map_url?: string;
+  latitude?: number;
+  longitude?: number;
+  has_water?: boolean;
+  has_washroom?: boolean;
+  has_parking?: boolean;
+  network_details?: string;
+  difficulty?: string;
+  best_season?: string;
+  nearby_attractions?: string[];
+  reviews?: DBCampsiteReview[];
+  altitude?: number;
+  state?: string;
+}
+
 export const metadata: Metadata = {
   title: "ICC Campsite Directory | Explore & Reserve Wilderness Spots",
   description:
@@ -153,7 +189,7 @@ export default async function CampsitesPage() {
 
   // Map database campsites to match directory attributes
   const campsites = dbCampsites && dbCampsites.length > 0
-    ? dbCampsites.map((item: any) => ({
+    ? dbCampsites.map((item: DBCampsite) => ({
         id: item.id,
         title: item.title,
         location: item.location,

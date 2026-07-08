@@ -213,7 +213,9 @@ export function GlobalSearch({ onClose }: GlobalSearchProps) {
     const saved = localStorage.getItem("icc_recent_searches");
     if (saved) {
       try {
-        setRecents(JSON.parse(saved));
+        requestAnimationFrame(() => {
+          setRecents(JSON.parse(saved));
+        });
       } catch {
         // Ignore
       }
@@ -372,7 +374,7 @@ export function GlobalSearch({ onClose }: GlobalSearchProps) {
               <SlidersHorizontal className="h-3.5 w-3.5 text-muted-foreground" />
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
+                onChange={(e) => setSortBy(e.target.value as "relevance" | "date" | "rating")}
                 className="bg-transparent text-muted-foreground font-semibold outline-none cursor-pointer hover:text-foreground"
               >
                 <option value="relevance">Sort: Relevance</option>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/purity, react-hooks/immutability */
 "use client";
 
 import * as React from "react";
@@ -48,15 +49,6 @@ export default function LoginPage() {
     if (result?.error) {
       setErrorMessage(result.error);
     } else {
-      // Sync mock session to localStorage so the client-side navbar can detect the user
-      const mockUser = {
-        id: data.email.includes("sameer") || data.email.includes("admin") ? "admin-id" : "mock-user-" + Math.random().toString(36).substr(2, 9),
-        email: data.email,
-        user_metadata: { full_name: data.email.split("@")[0] }
-      };
-      localStorage.setItem("icc_mock_user", JSON.stringify(mockUser));
-      document.cookie = `icc_mock_session=${JSON.stringify(mockUser)}; path=/`;
-
       const nextPath = searchParams.get("next") || "/profile";
       router.push(nextPath);
       router.refresh();

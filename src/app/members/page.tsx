@@ -2,6 +2,30 @@ import { createClient } from "@/lib/supabase/server";
 import { MembersView } from "./members-view";
 import type { Metadata } from "next";
 
+interface DBFollow {
+  follower_id: string;
+  following_id: string;
+}
+
+interface DBMember {
+  id: string;
+  name?: string;
+  avatar_url?: string;
+  cover_photo_url?: string;
+  city?: string;
+  state?: string;
+  camping_experience?: string;
+  bio?: string;
+  instagram?: string;
+  twitter?: string;
+  github?: string;
+  website?: string;
+  gallery?: string[];
+  achievements?: string[];
+  trips_joined?: number | string;
+  events_organized?: number | string;
+}
+
 export const metadata: Metadata = {
   title: "ICC Members Directory | Connect with Fellow Campers & Guides",
   description:
@@ -27,7 +51,7 @@ export default async function MembersPage() {
   const followingMap: Record<string, number> = {};
 
   if (dbFollows) {
-    dbFollows.forEach((f: any) => {
+    dbFollows.forEach((f: DBFollow) => {
       followersMap[f.following_id] = (followersMap[f.following_id] || 0) + 1;
       followingMap[f.follower_id] = (followingMap[f.follower_id] || 0) + 1;
     });
@@ -126,7 +150,7 @@ export default async function MembersPage() {
 
   // Map database profiles to structured objects
   const members = dbMembers && dbMembers.length > 0
-    ? dbMembers.map((m: any) => ({
+    ? dbMembers.map((m: DBMember) => ({
         id: m.id,
         name: m.name || "Anonymous Camper",
         avatar_url: m.avatar_url || "",

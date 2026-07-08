@@ -68,9 +68,9 @@ export function EventsView({
   React.useEffect(() => {
     // Load local custom events
     const localEvents = JSON.parse(localStorage.getItem("icc_local_events") || "[]");
+    const merged = [...initialEvents];
     if (localEvents.length > 0) {
       // Merge with initialEvents, filtering out duplicates
-      const merged = [...initialEvents];
       localEvents.forEach((le: Event) => {
         const index = merged.findIndex((e) => e.id === le.id);
         if (index > -1) {
@@ -79,7 +79,6 @@ export function EventsView({
           merged.unshift(le); // add to top
         }
       });
-      setEvents(merged);
     }
 
     // Load local bookmarks
@@ -90,7 +89,6 @@ export function EventsView({
       if (!activeBookmarks.includes(id)) activeBookmarks.push(id);
     });
     activeBookmarks = activeBookmarks.filter((id) => !localUnbookmarks.includes(id));
-    setBookmarks(activeBookmarks);
 
     // Load local registrations
     const localJoins = JSON.parse(localStorage.getItem("icc_local_joins") || "[]");
@@ -100,7 +98,14 @@ export function EventsView({
       if (!activeRegistrations.includes(id)) activeRegistrations.push(id);
     });
     activeRegistrations = activeRegistrations.filter((id) => !localUnjoins.includes(id));
-    setRegistrations(activeRegistrations);
+
+    requestAnimationFrame(() => {
+      if (localEvents.length > 0) {
+        setEvents(merged);
+      }
+      setBookmarks(activeBookmarks);
+      setRegistrations(activeRegistrations);
+    });
   }, [initialEvents, userBookmarks, userRegistrations]);
 
   const handleBookmarkToggle = async (e: React.MouseEvent, eventId: string) => {
@@ -446,7 +451,7 @@ export function EventsView({
           <Compass className="h-12 w-12 text-muted-foreground mx-auto mb-4 animate-pulse" />
           <h3 className="text-lg font-bold">No treks found</h3>
           <p className="text-sm text-muted-foreground mt-2 px-6">
-            We couldn't find any events matching your selected search query or filters.
+            We couldn&apos;t find any events matching your selected search query or filters.
           </p>
           <Button
             variant="outline"

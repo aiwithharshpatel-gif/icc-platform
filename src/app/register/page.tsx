@@ -58,24 +58,6 @@ export default function RegisterPage() {
     if (result?.error) {
       setErrorMessage(result.error);
     } else {
-      // Seed mock users list in localStorage so login can find this user
-      const mockUser = {
-        id: "mock-user-" + Math.random().toString(36).substr(2, 9),
-        email: data.email,
-        user_metadata: {
-          full_name: data.name,
-          city: data.city,
-          state: data.state,
-          phone: data.phone,
-          camping_experience: data.campingExperience,
-          vehicle: data.vehicle,
-          bio: data.bio,
-        }
-      };
-      const existingUsers = JSON.parse(localStorage.getItem("icc_mock_users") || "[]");
-      existingUsers.push(mockUser);
-      localStorage.setItem("icc_mock_users", JSON.stringify(existingUsers));
-
       setIsSuccess(true);
     }
   };
@@ -92,7 +74,7 @@ export default function RegisterPage() {
           <div className="h-11 w-11 rounded-xl bg-primary flex items-center justify-center shadow-md">
             <Tent className="h-5 w-5 text-primary-foreground" />
           </div>
-          <h1 className="text-2xl font-extrabold tracking-tight mt-3">Join the Tribe</h1>
+          <h1 className="text-2xl font-extrabold tracking-tight mt-3">Join the Community</h1>
           <p className="text-xs text-muted-foreground max-w-[320px]">
             {isSuccess
               ? "Verify your account"
@@ -262,7 +244,7 @@ export default function RegisterPage() {
                       <Globe className="absolute left-3 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-muted-foreground" />
                       <input
                         type="text"
-                        placeholder="@camper_tribe"
+                        placeholder="@camper_community"
                         className="w-full pl-10 pr-4 py-2.5 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-primary"
                         {...register("instagram")}
                       />

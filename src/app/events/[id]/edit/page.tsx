@@ -123,7 +123,7 @@ export default async function EditEventPage({ params, searchParams }: EditPagePr
         checklist: dbEvent.checklist || [],
         photos: dbEvent.photos || [],
         organizer_id: dbEvent.organizer_id || null,
-        guide: dbEvent.guide || "Tribe Ranger",
+        guide: dbEvent.guide || "Community Leader",
         guide_title: dbEvent.guide_title || "Community Trek Leader",
       }
     : {

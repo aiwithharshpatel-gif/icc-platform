@@ -83,7 +83,7 @@ export function EditEventForm({ event }: EditEventFormProps) {
   // Sync checklist, photos and status state from local storage overrides on mount if mock data exists
   React.useEffect(() => {
     const localEvents = JSON.parse(localStorage.getItem("icc_local_events") || "[]");
-    const found = localEvents.find((e: any) => e.id === event.id);
+    const found = localEvents.find((e: { id: string; checklist?: unknown[]; photos?: unknown[]; status?: string }) => e.id === event.id);
     if (found) {
       setChecklist(found.checklist || []);
       setPhotos(found.photos || []);
@@ -134,7 +134,7 @@ export function EditEventForm({ event }: EditEventFormProps) {
       // Local storage fallback for local mock environment
       if (result?.isFallbackNeeded || !result?.success) {
         const localEvents = JSON.parse(localStorage.getItem("icc_local_events") || "[]");
-        const foundIndex = localEvents.findIndex((le: any) => le.id === event.id);
+        const foundIndex = localEvents.findIndex((le: { id: string }) => le.id === event.id);
         
         const updatedMockEvent = {
           id: event.id,

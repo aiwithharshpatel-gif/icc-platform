@@ -247,7 +247,7 @@ export async function seedDatabaseAction() {
     }
 
     return { success: true };
-  } catch (error: any) {
-    return { error: error.message || "An unexpected error occurred during database seeding." };
+  } catch (error) {
+    return { error: error instanceof Error ? error.message : "An unexpected error occurred during database seeding." };
   }
 }

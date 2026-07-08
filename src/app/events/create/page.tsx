@@ -14,8 +14,6 @@ import {
   Image as ImageIcon,
   Compass,
   Link as LinkIcon,
-  Tag,
-  AlertTriangle,
 } from "lucide-react";
 import { eventCreateSchema, type EventCreateInput } from "@/lib/validators";
 import { createEventAction } from "@/app/events/actions";
@@ -135,7 +133,7 @@ export default function CreateEventPage() {
     if (duplicateId) {
       // Check local storage events first
       const localEvents = JSON.parse(localStorage.getItem("icc_local_events") || "[]");
-      let original = localEvents.find((e: any) => e.id === duplicateId);
+      let original = localEvents.find((e: { id: string }) => e.id === duplicateId);
       
       if (!original) {
         original = fallbackEvents.find((e) => e.id === duplicateId);

@@ -151,19 +151,27 @@ function LineChart({ data, color = "var(--primary)" }: { data: number[]; color?:
 
 function DonutChart({ data }: { data: { label: string; value: number; color: string }[] }) {
   const total = data.reduce((s, d) => s + d.value, 0);
-  let cumulativePercent = 0;
+  
+  const segments = React.useMemo(() => {
+    const acc: { label: string; value: number; color: string; pct: number; offset: number }[] = [];
+    let tempPercent = 0;
+    for (const d of data) {
+      const pct = (d.value / total) * 100;
+      const offset = tempPercent;
+      tempPercent += pct;
+      acc.push({ ...d, pct, offset });
+    }
+    return acc;
+  }, [data, total]);
 
   return (
     <div className="flex items-center gap-6">
       <div className="relative h-28 w-28 flex-shrink-0">
         <svg viewBox="0 0 36 36" className="h-28 w-28 -rotate-90">
-          {data.map((d, i) => {
-            const pct = (d.value / total) * 100;
-            const offset = cumulativePercent;
-            cumulativePercent += pct;
+          {segments.map((d, i) => {
             return (
               <circle key={i} cx="18" cy="18" r="15.91549431" fill="none" stroke={d.color} strokeWidth="3"
-                strokeDasharray={`${pct} ${100 - pct}`} strokeDashoffset={`${-offset}`} className="transition-all duration-700" />
+                strokeDasharray={`${d.pct} ${100 - d.pct}`} strokeDashoffset={`${-d.offset}`} className="transition-all duration-700" />
             );
           })}
         </svg>
@@ -239,13 +247,13 @@ function DataTable<T>({
   const [sortDir, setSortDir] = React.useState<"asc" | "desc">("asc");
 
   const filtered = data.filter((item) => {
-    const val = String((item as any)[searchKey] || "").toLowerCase();
+    const val = String((item as Record<string, unknown>)[searchKey] || "").toLowerCase();
     return val.includes(search.toLowerCase());
   });
 
   const sorted = sortKey
     ? [...filtered].sort((a, b) => {
-        const av = (a as any)[sortKey]; const bv = (b as any)[sortKey];
+        const av = (a as Record<string, unknown>)[sortKey]; const bv = (b as Record<string, unknown>)[sortKey];
         const cmp = String(av || "").localeCompare(String(bv || ""), undefined, { numeric: true });
         return sortDir === "asc" ? cmp : -cmp;
       })
@@ -876,8 +884,8 @@ function SettingsPanel() {
       } else {
         setStatus({ success: true });
       }
-    } catch (e: any) {
-      setStatus({ error: e.message || "Something went wrong." });
+    } catch (e) {
+      setStatus({ error: e instanceof Error ? e.message : "Something went wrong." });
     } finally {
       setLoading(false);
     }

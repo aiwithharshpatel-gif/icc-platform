@@ -87,34 +87,36 @@ export function EventDetailsView({
     const localJoins = JSON.parse(localStorage.getItem("icc_local_joins") || "[]");
     const localUnjoins = JSON.parse(localStorage.getItem("icc_local_unjoins") || "[]");
 
-    if (localJoins.includes(event.id)) {
-      setJoinedState(true);
-      if (!isJoined) {
-        setSpotsRemainingState(Math.max(0, spotsRemaining - 1));
+    requestAnimationFrame(() => {
+      if (localJoins.includes(event.id)) {
+        setJoinedState(true);
+        if (!isJoined) {
+          setSpotsRemainingState(Math.max(0, spotsRemaining - 1));
+        }
+      } else if (localUnjoins.includes(event.id)) {
+        setJoinedState(false);
+        if (isJoined) {
+          setSpotsRemainingState(spotsRemaining + 1);
+        }
       }
-    } else if (localUnjoins.includes(event.id)) {
-      setJoinedState(false);
-      if (isJoined) {
-        setSpotsRemainingState(spotsRemaining + 1);
+
+      // Check local bookmarks
+      const localBookmarks = JSON.parse(localStorage.getItem("icc_local_bookmarks") || "[]");
+      const localUnbookmarks = JSON.parse(localStorage.getItem("icc_local_unbookmarks") || "[]");
+
+      if (localBookmarks.includes(event.id)) {
+        setBookmarkState(true);
+      } else if (localUnbookmarks.includes(event.id)) {
+        setBookmarkState(false);
       }
-    }
 
-    // Check local bookmarks
-    const localBookmarks = JSON.parse(localStorage.getItem("icc_local_bookmarks") || "[]");
-    const localUnbookmarks = JSON.parse(localStorage.getItem("icc_local_unbookmarks") || "[]");
-
-    if (localBookmarks.includes(event.id)) {
-      setBookmarkState(true);
-    } else if (localUnbookmarks.includes(event.id)) {
-      setBookmarkState(false);
-    }
-
-    // Check custom local event edits or status changes
-    const localEvents = JSON.parse(localStorage.getItem("icc_local_events") || "[]");
-    const found = localEvents.find((le: any) => le.id === event.id);
-    if (found) {
-      setStatusState(found.status);
-    }
+      // Check custom local event edits or status changes
+      const localEvents = JSON.parse(localStorage.getItem("icc_local_events") || "[]");
+      const found = localEvents.find((le: { id: string; status?: string }) => le.id === event.id);
+      if (found) {
+        setStatusState(found.status);
+      }
+    });
   }, [event.id, isJoined, isBookmarked, spotsRemaining]);
 
   const handleJoinToggle = async () => {
@@ -211,7 +213,7 @@ export function EventDetailsView({
       // Fallback local storage deletion
       if (result?.isFallbackNeeded || !result?.success) {
         const localEvents = JSON.parse(localStorage.getItem("icc_local_events") || "[]");
-        const updated = localEvents.filter((le: any) => le.id !== event.id);
+        const updated = localEvents.filter((le: { id: string }) => le.id !== event.id);
         localStorage.setItem("icc_local_events", JSON.stringify(updated));
       }
       
@@ -247,7 +249,7 @@ export function EventDetailsView({
 
       if (result?.isFallbackNeeded || !result?.success) {
         const localEvents = JSON.parse(localStorage.getItem("icc_local_events") || "[]");
-        const updated = localEvents.map((le: any) => {
+        const updated = localEvents.map((le: { id: string; status?: string }) => {
           if (le.id === event.id) {
             return { ...le, status: newStatus };
           }
@@ -299,7 +301,7 @@ export function EventDetailsView({
           <img src={event.image_url} alt={event.title} className="w-full h-full object-cover" />
         ) : (
           <div className="w-full h-full bg-gradient-to-r from-emerald-800 to-indigo-950 flex items-center justify-center">
-            <span className="text-white/20 font-black text-3xl tracking-widest uppercase font-display">Tribe Adventures</span>
+            <span className="text-white/20 font-black text-3xl tracking-widest uppercase font-display">Community Adventures</span>
           </div>
         )}
       </div>
@@ -416,7 +418,7 @@ export function EventDetailsView({
                 Wilderness packing checklist
               </h3>
               <p className="text-[11px] text-muted-foreground mb-4">
-                Prepare your backpack. Check items off as you pack them to ensure you don't leave essentials behind:
+                Prepare your backpack. Check items off as you pack them to ensure you don&apos;t leave essentials behind:
               </p>
               {event.checklist && event.checklist.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">

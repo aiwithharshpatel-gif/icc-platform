@@ -320,7 +320,7 @@ export function ProfileView({ initialProfile, email }: ProfileViewProps) {
                       About Me
                     </h4>
                     <p className="text-foreground bg-muted/20 p-4 rounded-xl border border-border/40 leading-relaxed font-sans">
-                      {profile.bio || "No biography provided yet. Add one to introduce yourself to the tribe!"}
+                      {profile.bio || "No biography provided yet. Add one to introduce yourself to the community!"}
                     </p>
                   </div>
 
@@ -348,7 +348,7 @@ export function ProfileView({ initialProfile, email }: ProfileViewProps) {
                   <div className="pt-4 border-t border-border/30">
                     <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5 mb-3">
                       <Trophy className="h-4 w-4 text-amber-500" />
-                      Tribe Achievements
+                      Community Achievements
                     </h4>
                     {profile.achievements && profile.achievements.length > 0 ? (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -588,7 +588,7 @@ export function ProfileView({ initialProfile, email }: ProfileViewProps) {
                   {/* Achievements checklist in Edit Mode */}
                   <div className="space-y-2 border-t border-border/30 pt-4 mt-2">
                     <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
-                      <Trophy className="h-4 w-4 text-amber-500" /> Tribe Achievements
+                      <Trophy className="h-4 w-4 text-amber-500" /> Community Achievements
                     </label>
                     <p className="text-[10px] text-muted-foreground">Select the badges you have earned or want to feature on your profile:</p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">

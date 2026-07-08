@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Search, MapPin, SlidersHorizontal, Flame, Users, User, Compass, ArrowRight } from "lucide-react";
+import { Search, MapPin, SlidersHorizontal, User, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -63,10 +63,10 @@ export function MembersView({ initialMembers }: MembersViewProps) {
       {/* Directory Title */}
       <div className="mb-12 text-center md:text-left">
         <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 font-display">
-          Meet the Tribe
+          Meet the Community
         </h1>
         <p className="text-muted-foreground max-w-2xl leading-relaxed">
-          Connect with India's largest network of campers, certified mountain guides, and trekking enthusiasts. Share stories, rent gear, and plan your next escape.
+          Connect with India&apos;s largest network of campers, certified mountain guides, and trekking enthusiasts. Share stories, rent gear, and plan your next escape.
         </p>
       </div>
 
@@ -187,7 +187,7 @@ export function MembersView({ initialMembers }: MembersViewProps) {
           <User className="h-12 w-12 text-muted-foreground mx-auto mb-4 animate-pulse" />
           <h3 className="text-lg font-bold">No members found</h3>
           <p className="text-sm text-muted-foreground mt-2 px-6">
-            We couldn't find any community members matching "{search}".
+            We couldn&apos;t find any community members matching &quot;{search}&quot;.
           </p>
           <Button
             variant="outline"

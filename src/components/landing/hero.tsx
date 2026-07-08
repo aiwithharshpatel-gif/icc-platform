@@ -25,7 +25,7 @@ export function Hero() {
         <h1 className="animate-slide-up text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight max-w-4xl leading-[1.15] mb-6">
           Explore the <span className="gradient-text-forest">Wilds of India</span>,
           <br className="hidden sm:inline" />
-          Connect with the <span className="gradient-text-amber">Active Tribe</span>.
+          Connect with the <span className="gradient-text-amber">Active Community</span>.
         </h1>
 
         {/* Subtitle */}
@@ -74,7 +74,7 @@ export function Hero() {
               <Flame className="h-5 w-5" />
             </div>
             <div>
-              <h4 className="text-sm font-semibold">Tribe Support</h4>
+              <h4 className="text-sm font-semibold">Community Support</h4>
               <p className="text-xs text-muted-foreground">Gear rental & offline guides</p>
             </div>
           </div>

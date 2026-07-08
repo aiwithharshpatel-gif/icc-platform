@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
@@ -38,9 +39,9 @@ export const createClient = async () => {
       },
       from: (table: string) => {
         return {
-          select: (columns: string) => {
+          select: (_columns: string) => {
             return {
-              eq: (field: string, value: any) => {
+              eq: (_field: string, _value: any) => {
                 return {
                   single: async () => {
                     if (table === "admin_roles") {

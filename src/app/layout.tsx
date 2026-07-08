@@ -21,7 +21,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Indian Camping Community (ICC) | Explore the Wild, Connect with the Tribe",
+  title: "Indian Camping Community (ICC) | Explore the Wild, Connect with the Community",
   description:
     "India's largest network for outdoor enthusiasts. Discover verified campsites, participate in community group treks, rent camping gear, and explore the Indian wilderness responsibly.",
   keywords: [
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Indian Camping Community (ICC) | Explore the Outdoors",
     description:
-      "Join the tribe. Discover verified campsites, group treks, and peer-to-peer camping gear rental across India.",
+      "Join the community. Discover verified campsites, group treks, and peer-to-peer camping gear rental across India.",
     type: "website",
     locale: "en_IN",
   },

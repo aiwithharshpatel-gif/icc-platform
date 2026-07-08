@@ -10,7 +10,6 @@ import { newsletterSchema, type NewsletterInput } from "@/lib/validators";
 
 export function Footer() {
   const pathname = usePathname();
-  if (pathname?.startsWith("/admin")) return null;
 
   const [isSubmitted, setIsSubmitted] = React.useState(false);
 
@@ -22,6 +21,8 @@ export function Footer() {
   } = useForm<NewsletterInput>({
     resolver: zodResolver(newsletterSchema),
   });
+
+  if (pathname?.startsWith("/admin")) return null;
 
   const onSubmit = async (data: NewsletterInput) => {
     // Simulate API registration
@@ -130,7 +131,7 @@ export function Footer() {
             {isSubmitted ? (
               <div className="p-3 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/30 rounded-lg flex items-center space-x-2 text-emerald-800 dark:text-emerald-400">
                 <CheckCircle className="h-5 w-5 shrink-0" />
-                <span className="text-xs font-medium">Thank you! Welcome to the tribe.</span>
+                <span className="text-xs font-medium">Thank you! Welcome to the community.</span>
               </div>
             ) : (
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">

@@ -32,7 +32,7 @@ export function Introduction() {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-xs font-bold uppercase tracking-widest text-primary mb-3">Our Mission</h2>
           <p className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-5">
-            More than just booking camps. We build the Tribe.
+            More than just booking camps. We build the Community.
           </p>
           <p className="text-muted-foreground leading-relaxed">
             The Indian Camping Community (ICC) was born out of a desire to unite India&apos;s scattered outdoor enthusiasts. We bridge the gap between remote campsite owners, experienced trek leaders, and greenhorn campers wanting to explore the outdoors responsibly.

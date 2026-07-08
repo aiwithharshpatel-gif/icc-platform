@@ -221,7 +221,7 @@ function PostComposer({ onPost }: { onPost: (post: Post) => void }) {
   }
 
   const placeholders: Record<string, string> = {
-    text: "Share a trail story with the tribe...",
+    text: "Share a trail story with the community...",
     photo: "Describe your camp photo...",
     question: "Ask the camping community a question...",
     poll: "What are we voting on today?",
@@ -333,7 +333,7 @@ function PostComposer({ onPost }: { onPost: (post: Post) => void }) {
         <div className="flex justify-between items-center px-4 py-3 border-t border-border/30 bg-muted/20">
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Flame className="h-3.5 w-3.5 text-accent" />
-            <span>Share with the tribe</span>
+            <span>Share with the community</span>
           </div>
           <Button
             variant="primary"
@@ -456,7 +456,7 @@ function PollWidget({
    COMMENT SECTION
    ====================================================== */
 
-function CommentSection({ postId, initialComments }: { postId: string; initialComments: Comment[] }) {
+function CommentSection({ postId: _postId, initialComments }: { postId: string; initialComments: Comment[] }) {
   const [comments, setComments] = React.useState(initialComments);
   const [newComment, setNewComment] = React.useState("");
   const [replyingTo, setReplyingTo] = React.useState<string | null>(null);
@@ -1050,29 +1050,13 @@ function MobileNotifBell({ notifications }: { notifications: Notification[] }) {
    MAIN FEED VIEW
    ====================================================== */
 
-export default function FeedView({ initialPosts, notifications, userId }: FeedViewProps) {
+export default function FeedView({ initialPosts, notifications, userId: _userId }: FeedViewProps) {
   const [posts, setPosts] = React.useState(initialPosts);
   const [loading, setLoading] = React.useState(false);
   const [hasMore, setHasMore] = React.useState(true);
   const [filter, setFilter] = React.useState<"all" | "text" | "photo" | "question" | "poll">("all");
   const sentinelRef = React.useRef<HTMLDivElement>(null);
   const loadCountRef = React.useRef(0);
-
-  // Infinite scroll via IntersectionObserver
-  React.useEffect(() => {
-    if (!sentinelRef.current) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasMore && !loading) {
-          loadMore();
-        }
-      },
-      { threshold: 0.1 }
-    );
-    observer.observe(sentinelRef.current);
-    return () => observer.disconnect();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasMore, loading]);
 
   function loadMore() {
     if (loadCountRef.current >= 3) {
@@ -1098,6 +1082,22 @@ export default function FeedView({ initialPosts, notifications, userId }: FeedVi
       if (loadCountRef.current >= 3) setHasMore(false);
     }, 1200);
   }
+
+  // Infinite scroll via IntersectionObserver
+  React.useEffect(() => {
+    if (!sentinelRef.current) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !loading) {
+          loadMore();
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(sentinelRef.current);
+    return () => observer.disconnect();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasMore, loading]);
 
   function handleNewPost(post: Post) {
     setPosts([post, ...posts]);
@@ -1129,7 +1129,7 @@ export default function FeedView({ initialPosts, notifications, userId }: FeedVi
             </div>
             <p className="text-sm text-primary-foreground/80 max-w-lg">
               Stories from the trail, questions from the camp, and connections that last beyond the trek.
-              Share your wilderness moments with the tribe. 🏕️
+              Share your wilderness moments with the community. 🏕️
             </p>
           </div>
         </div>
@@ -1258,7 +1258,7 @@ export default function FeedView({ initialPosts, notifications, userId }: FeedVi
               <div className="text-center py-12 border border-dashed border-border rounded-xl">
                 <Flame className="h-8 w-8 text-accent mx-auto mb-3 opacity-50" />
                 <p className="text-sm font-semibold text-muted-foreground">You&apos;ve reached the end of the trail</p>
-                <p className="text-xs text-muted-foreground mt-1">Check back later for new stories from the tribe 🏕️</p>
+                <p className="text-xs text-muted-foreground mt-1">Check back later for new stories from the community 🏕️</p>
               </div>
             )}
           </div>

@@ -89,7 +89,7 @@ export async function generateMetadata({ params }: EventPageProps): Promise<Meta
 
   const fallback = fallbackEvents.find((e) => e.id === id);
   const title = event?.title || fallback?.title || "Outdoor Trek Event";
-  const desc = event?.description || fallback?.description || "Join the tribe outdoors on the Indian Camping Community.";
+  const desc = event?.description || fallback?.description || "Join the community outdoors on the Indian Camping Community.";
 
   return {
     title: `${title} | ICC Treks`,
@@ -121,7 +121,7 @@ export default async function EventPage({ params }: EventPageProps) {
   // Check if current user joined
   let isJoined = false;
   if (user && registrations) {
-    isJoined = registrations.some((r: any) => r.user_id === user.id);
+    isJoined = registrations.some((r: { user_id: string }) => r.user_id === user.id);
   }
 
   // Check if current user bookmarked

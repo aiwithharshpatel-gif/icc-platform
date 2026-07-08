@@ -3,22 +3,22 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Menu, X, Compass, Tent, Search, User as UserIcon, LogOut, Shield } from "lucide-react";
+import { Menu, X, Tent, Search, User as UserIcon, LogOut, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/common/theme-toggle";
 import { cn } from "@/lib/utils";
 import { GlobalSearch } from "@/components/common/global-search";
 import { supabase } from "@/lib/supabase/client";
+import type { User, AuthChangeEvent, Session } from "@supabase/supabase-js";
 
 export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
-  if (pathname?.startsWith("/admin")) return null;
 
   const [isOpen, setIsOpen] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
-  const [user, setUser] = React.useState<any>(null);
+  const [user, setUser] = React.useState<User | null>(null);
   const [role, setRole] = React.useState<string>("member");
   const [isProfileOpen, setIsProfileOpen] = React.useState(false);
 
@@ -50,7 +50,7 @@ export function Navbar() {
     fetchUser();
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event: any, session: any) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event: AuthChangeEvent, session: Session | null) => {
       if (session?.user) {
         setUser(session.user);
         supabase
@@ -58,7 +58,7 @@ export function Navbar() {
           .select("role")
           .eq("user_id", session.user.id)
           .single()
-          .then(({ data: rData }: any) => {
+          .then(({ data: rData }: { data: { role: string } | null }) => {
             if (rData?.role) setRole(rData.role);
           });
       } else {
@@ -72,6 +72,8 @@ export function Navbar() {
       subscription.unsubscribe();
     };
   }, []);
+
+  if (pathname?.startsWith("/admin")) return null;
 
   const navLinks = [
     { label: "Home", href: "/" },
@@ -188,7 +190,7 @@ export function Navbar() {
                 </Link>
                 <Link href="/register">
                   <Button variant="accent" size="sm" className="bg-orange-500 hover:bg-orange-600 text-white border-none font-bold text-xs h-9">
-                    Join Tribe
+                    Join Community
                   </Button>
                 </Link>
               </>
@@ -281,7 +283,7 @@ export function Navbar() {
                 </Link>
                 <Link href="/register" onClick={() => setIsOpen(false)} className="w-full">
                   <Button variant="accent" className="w-full justify-center text-xs h-10 bg-orange-500 hover:bg-orange-600 text-white border-none font-bold">
-                    Join Tribe (Register)
+                    Join Community (Register)
                   </Button>
                 </Link>
               </>

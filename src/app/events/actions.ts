@@ -30,7 +30,7 @@ export async function createEventAction(data: EventCreateInput) {
       checklist: data.checklist,
       photos: data.photos,
       organizer_id: user.id,
-      guide: user.user_metadata?.full_name || "Tribe Ranger",
+      guide: user.user_metadata?.full_name || "Community Leader",
       guide_title: "Community Trek Leader",
     })
     .select()

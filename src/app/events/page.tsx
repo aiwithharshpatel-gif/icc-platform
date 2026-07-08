@@ -2,8 +2,38 @@ import { createClient } from "@/lib/supabase/server";
 import { EventsView } from "./events-view";
 import type { Metadata } from "next";
 
+interface DBBookmark {
+  event_id: string;
+  user_id: string;
+}
+
+interface DBRegistration {
+  event_id: string;
+  user_id: string;
+}
+
+interface DBEvent {
+  id: string;
+  title: string;
+  location: string;
+  google_map_url?: string;
+  date: string;
+  price: string | number;
+  guide?: string;
+  guide_title?: string;
+  capacity?: string | number;
+  difficulty?: string;
+  camping_type?: string;
+  description?: string;
+  status?: string;
+  image_url?: string;
+  checklist?: string[];
+  photos?: string[];
+  organizer_id?: string;
+}
+
 export const metadata: Metadata = {
-  title: "ICC Community Trekking & Events | Join the Tribe Outdoors",
+  title: "ICC Community Trekking & Events | Join the Community Outdoors",
   description:
     "Discover and participate in group treks, stargazing nights, beach camping, and high-altitude climbs organized by local wilderness rangers in India.",
   keywords: ["trekking events India", "group hiking", "co-campers India", "stargazing Manali"],
@@ -35,7 +65,7 @@ export default async function EventsPage() {
       .eq("user_id", user.id);
 
     if (dbBookmarks) {
-      userBookmarks = dbBookmarks.map((b: any) => b.event_id);
+      userBookmarks = dbBookmarks.map((b: DBBookmark) => b.event_id);
     }
   }
 
@@ -43,14 +73,14 @@ export default async function EventsPage() {
   let userRegistrations: string[] = [];
   if (user && dbRegistrations) {
     userRegistrations = dbRegistrations
-      .filter((r: any) => r.user_id === user.id)
-      .map((r: any) => r.event_id);
+      .filter((r: DBRegistration) => r.user_id === user.id)
+      .map((r: DBRegistration) => r.event_id);
   }
 
   // Compile registrations count per event
   const registrationCounts: Record<string, number> = {};
   if (dbRegistrations) {
-    dbRegistrations.forEach((r: any) => {
+    dbRegistrations.forEach((r: DBRegistration) => {
       registrationCounts[r.event_id] = (registrationCounts[r.event_id] || 0) + 1;
     });
   }
@@ -128,7 +158,7 @@ export default async function EventsPage() {
 
   // Map database events to typed formats
   const events = dbEvents && dbEvents.length > 0
-    ? dbEvents.map((item: any) => {
+    ? dbEvents.map((item: DBEvent) => {
         const capacityNum = isNaN(Number(item.capacity)) ? 20 : Number(item.capacity);
         const registeredCount = registrationCounts[item.id] || 0;
         const spotsRemaining = Math.max(0, capacityNum - registeredCount);

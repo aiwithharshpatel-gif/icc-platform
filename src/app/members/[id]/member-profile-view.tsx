@@ -88,20 +88,22 @@ export function MemberProfileView({
     const localFollows = JSON.parse(localStorage.getItem("icc_local_follows") || "[]");
     const localUnfollows = JSON.parse(localStorage.getItem("icc_local_unfollows") || "[]");
 
-    if (localFollows.includes(profile.id)) {
-      setFollowingState(true);
-      if (!isFollowing) {
-        setFollowersCountState(followerCount + 1);
+    requestAnimationFrame(() => {
+      if (localFollows.includes(profile.id)) {
+        setFollowingState(true);
+        if (!isFollowing) {
+          setFollowersCountState(followerCount + 1);
+        }
+      } else if (localUnfollows.includes(profile.id)) {
+        setFollowingState(false);
+        if (isFollowing) {
+          setFollowersCountState(Math.max(0, followerCount - 1));
+        }
+      } else {
+        setFollowingState(isFollowing);
+        setFollowersCountState(followerCount);
       }
-    } else if (localUnfollows.includes(profile.id)) {
-      setFollowingState(false);
-      if (isFollowing) {
-        setFollowersCountState(Math.max(0, followerCount - 1));
-      }
-    } else {
-      setFollowingState(isFollowing);
-      setFollowersCountState(followerCount);
-    }
+    });
   }, [profile.id, isFollowing, followerCount]);
 
   const handleFollowToggle = async () => {
@@ -360,7 +362,7 @@ export function MemberProfileView({
                 <div className="pt-4 border-t border-border/30">
                   <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5 mb-3">
                     <Trophy className="h-4 w-4 text-amber-500" />
-                    Tribe Achievements
+                    Community Achievements
                   </h4>
                   {profile.achievements && profile.achievements.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -375,7 +377,7 @@ export function MemberProfileView({
                       ))}
                     </div>
                   ) : (
-                    <p className="text-xs text-muted-foreground py-1 italic">No tribe achievements earned yet.</p>
+                    <p className="text-xs text-muted-foreground py-1 italic">No community achievements earned yet.</p>
                   )}
                 </div>
 

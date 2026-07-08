@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createBrowserClient } from "@supabase/ssr";
 
 const createMockSupabase = () => {
@@ -57,9 +58,9 @@ const createMockSupabase = () => {
     },
     from: (table: string) => {
       return {
-        select: (columns: string) => {
+        select: (_columns: string) => {
           return {
-            eq: (field: string, value: any) => {
+            eq: (_field: string, _value: any) => {
               return {
                 single: async () => {
                   if (table === "admin_roles") {
