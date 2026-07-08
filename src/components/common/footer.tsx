@@ -75,8 +75,8 @@ export function Footer() {
           {/* Brand Info Column */}
           <div className="col-span-1 lg:col-span-4 flex flex-col space-y-4">
             <Link href="/" className="flex items-center space-x-2 group">
-              <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center transition-transform group-hover:scale-105">
-                <Tent className="h-4 w-4 text-primary-foreground" />
+              <div className="h-9 w-9 overflow-hidden rounded-lg border border-border/80 shadow-sm transition-transform group-hover:scale-105">
+                <img src="/logo.jpg" alt="ICC Logo" className="h-full w-full object-cover" />
               </div>
               <span className="font-bold text-lg tracking-tight flex items-center gap-1">
                 <span className="gradient-text-forest font-extrabold font-display">ICC</span>

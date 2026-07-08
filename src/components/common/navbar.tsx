@@ -98,8 +98,8 @@ export function Navbar() {
         <div className="flex items-center justify-between">
           {/* Logo Section */}
           <Link href="/" className="flex items-center space-x-2 group">
-            <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:rotate-3 shadow-md">
-              <Tent className="h-5 w-5 text-primary-foreground" />
+            <div className="h-10 w-10 overflow-hidden rounded-xl border border-border shadow-md transition-all duration-300 group-hover:scale-105">
+              <img src="/logo.jpg" alt="ICC Logo" className="h-full w-full object-cover" />
             </div>
             <span className="font-bold text-xl tracking-tight flex items-center gap-1.5">
               <span className="gradient-text-forest font-extrabold font-display">ICC</span>
