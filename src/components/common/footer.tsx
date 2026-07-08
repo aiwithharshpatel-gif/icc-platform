@@ -46,7 +46,7 @@ export function Footer() {
     {
       title: "Community",
       links: [
-        { label: "About ICC", href: "#about" },
+        { label: "About ICC", href: pathname === "/" ? "#about" : "/#about" },
         { label: "Community Rules", href: "#" },
         { label: "Forum Discussion", href: "#" },
         { label: "Share Your Gear", href: "#" },

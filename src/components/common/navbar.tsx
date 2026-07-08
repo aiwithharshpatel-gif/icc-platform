@@ -81,8 +81,8 @@ export function Navbar() {
     { label: "Events", href: "/events" },
     { label: "Members", href: "/members" },
     { label: "Campfire", href: "/feed" },
-    { label: "About ICC", href: "#about" },
-    { label: "Features", href: "#features" },
+    { label: "About ICC", href: pathname === "/" ? "#about" : "/#about" },
+    { label: "Features", href: pathname === "/" ? "#features" : "/#features" },
   ];
 
   return (
