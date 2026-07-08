@@ -5,8 +5,23 @@ import { Features } from "@/components/landing/features";
 import { Stats } from "@/components/landing/stats";
 import { CampsitesPreview } from "@/components/landing/campsites-preview";
 import { EventsPreview } from "@/components/landing/events-preview";
+import { createClient } from "@/lib/supabase/server";
 
-export default function Home() {
+export default async function Home() {
+  const supabase = await createClient();
+
+  const { data: dbCampsites } = await supabase
+    .from("campsites")
+    .select("*")
+    .order("rating", { ascending: false })
+    .limit(3);
+
+  const { data: dbEvents } = await supabase
+    .from("events")
+    .select("*")
+    .order("id", { ascending: true })
+    .limit(3);
+
   return (
     <div className="relative">
       {/* Decorative page glow for premium aesthetics */}
@@ -16,8 +31,8 @@ export default function Home() {
       <Introduction />
       <Features />
       <Stats />
-      <CampsitesPreview />
-      <EventsPreview />
+      <CampsitesPreview initialCampsites={dbCampsites || []} />
+      <EventsPreview initialEvents={dbEvents || []} />
     </div>
   );
 }

@@ -5,45 +5,80 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/componen
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-export function EventsPreview() {
-  const events = [
+interface EventProp {
+  id: string;
+  title: string;
+  location: string;
+  date: string;
+  price: string | number;
+  guide: string;
+  guide_title?: string;
+  capacity: string;
+  availability: string;
+  status?: string;
+  image_url?: string;
+  image?: string;
+  description: string;
+}
+
+export function EventsPreview({ initialEvents }: { initialEvents?: EventProp[] }) {
+  const fallbackEvents = [
     {
-      id: "ev-1",
-      title: "Monsoon Valley Trek",
-      location: "Bhimashankar, Maharashtra",
-      date: "July 18 - 19, 2026",
-      price: "₹2,400",
-      guide: "Rohan Deshmukh",
-      capacity: "15 Max",
-      availability: "5 Spots Left",
+      id: "e1",
+      title: "Monsoon Trek & Camp",
+      location: "Harishchandragad, MH",
+      date: "July 15-16, 2026",
+      price: "₹2,200",
+      guide: "Sameer Joshi",
+      capacity: "25 Campers",
+      availability: "8 Slots Left",
       status: "accent",
-      image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80",
+      image: "https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=600&q=80",
+      description: "Experience the monsoon beauty of Harishchandragad fort, camp above the clouds, and view the iconic Kokankada cliff."
     },
     {
-      id: "ev-2",
-      title: "Starry Nights over Hampta",
-      location: "Manali, Himachal Pradesh",
-      date: "Aug 02 - 07, 2026",
+      id: "e2",
+      title: "High Altitude Expedition",
+      location: "Hampta Pass, HP",
+      date: "Aug 10-15, 2026",
       price: "₹9,500",
-      guide: "Amit Thakur",
-      capacity: "10 Max",
-      availability: "Selling Fast",
+      guide: "Aryan Negi",
+      capacity: "15 Campers",
+      availability: "4 Slots Left",
       status: "success",
-      image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
+      image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80",
+      description: "Cross the lush green valleys of Kullu to the stark high-altitude deserts of Spiti Valley over the glorious Hampta Pass."
     },
     {
-      id: "ev-3",
-      title: "Coastal Camping & Kayaking",
+      id: "e3",
+      title: "Beach Trek & Stargazing",
       location: "Gokarna, Karnataka",
-      date: "Aug 15 - 17, 2026",
-      price: "₹3,200",
-      guide: "Sneha Hegde",
-      capacity: "20 Max",
-      availability: "Open",
+      date: "Sept 04-06, 2026",
+      price: "₹4,500",
+      guide: "Priya Nair",
+      capacity: "30 Campers",
+      availability: "12 Slots Left",
       status: "default",
-      image: "https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=600&q=80",
+      image: "https://images.unsplash.com/photo-1510312305653-8ed496efae75?auto=format&fit=crop&w=600&q=80",
+      description: "A weekend coastal beach trek covering Om Beach, Half Moon Beach, and Paradise Beach, topped with astronomical stargazing sessions."
     },
   ];
+
+  const displayEvents = initialEvents && initialEvents.length > 0
+    ? initialEvents.map((item) => ({
+        id: item.id,
+        title: item.title,
+        location: item.location,
+        date: item.date,
+        price: typeof item.price === "number" ? `₹${item.price.toLocaleString()}` : item.price,
+        guide: item.guide,
+        capacity: item.capacity || "20 Campers",
+        availability: item.availability || "Open",
+        status: item.status || "default",
+        image: item.image_url || item.image || "https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=600&q=80",
+        description: item.description
+      }))
+    : fallbackEvents;
 
   return (
     <section id="events" className="py-24 bg-muted/10">
@@ -67,7 +102,7 @@ export function EventsPreview() {
 
         {/* Events Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {events.map((event) => (
+          {displayEvents.map((event) => (
             <Card
               key={event.id}
               hoverEffect
@@ -105,7 +140,7 @@ export function EventsPreview() {
 
               <CardContent className="flex-grow space-y-4">
                 <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3">
-                  Join a group of like-minded outdoor explorers. Led by certified instructors. Gear support, permits, safety sweeps, and meals are included.
+                  {event.description}
                 </p>
                 <div className="grid grid-cols-2 gap-3 pt-2 border-t border-border/30 text-xs">
                   <div className="flex items-center gap-2">

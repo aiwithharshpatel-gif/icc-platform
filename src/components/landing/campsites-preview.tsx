@@ -5,39 +5,70 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/componen
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-export function CampsitesPreview() {
-  const campsites = [
+interface CampsiteProp {
+  id: string;
+  title: string;
+  location: string;
+  price: string | number;
+  rating: number;
+  reviews_count?: number;
+  reviewsCount?: number;
+  tags: string[];
+  image_url?: string;
+  image?: string;
+  description: string;
+}
+
+export function CampsitesPreview({ initialCampsites }: { initialCampsites?: CampsiteProp[] }) {
+  const fallbackCampsites = [
     {
-      id: "cs-1",
-      title: "Riverfront Meadows",
-      location: "Rishikesh, Uttarakhand",
-      price: "₹1,500",
-      rating: 4.9,
-      reviewsCount: 88,
-      tags: ["Riverside", "Beach Access", "Rafting"],
-      image: "https://images.unsplash.com/photo-1537905569824-f89f14cceb68?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: "cs-2",
-      title: "Pine Woods Sanctuary",
-      location: "Kasol, Himachal Pradesh",
-      price: "₹1,200",
+      id: "c1",
+      title: "Camp Roxx",
+      location: "Kangojodi, Himachal Pradesh",
+      price: "₹2,200",
       rating: 4.8,
-      reviewsCount: 124,
-      tags: ["Forest", "Alpine", "Valley View"],
-      image: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=600&q=80",
+      reviewsCount: 248,
+      tags: ["Forest", "Adventure", "Zip-lining"],
+      image: "https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?auto=format&fit=crop&w=600&q=80",
+      description: "Nestled inside a private 1,700-acre pine forest near Nahan. Features alpine cabin tents, nature trails, rock climbing, and zip-lining over pure mountain streams."
     },
     {
-      id: "cs-3",
-      title: "Sahyadri Ridge Camp",
-      location: "Lonavala, Maharashtra",
-      price: "₹1,800",
+      id: "c2",
+      title: "Winds Desert Camp",
+      location: "Sam Sand Dunes, Jaisalmer",
+      price: "₹4,500",
+      rating: 4.9,
+      reviewsCount: 312,
+      tags: ["Desert", "Cultural Show", "Camel Safari"],
+      image: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=600&q=80",
+      description: "Experience royal Rajasthani hospitality at Kanoi near Sam Sand Dunes. Luxury Swiss tents with attached bathrooms, camel safaris, and evening folk performances under Thar's starry skies."
+    },
+    {
+      id: "c3",
+      title: "Pawna Lake Camping",
+      location: "Thakursai, Lonavala",
+      price: "₹1,500",
       rating: 4.7,
-      reviewsCount: 65,
-      tags: ["Mountain Ridge", "Monsoon Hike", "Stargazing"],
-      image: "https://images.unsplash.com/photo-1478131143081-80f7f84ca84c?auto=format&fit=crop&w=600&q=80",
+      reviewsCount: 512,
+      tags: ["Lakeside", "Bonfire & DJ", "Kayaking"],
+      image: "https://images.unsplash.com/photo-1537905569824-f89f14cceb68?auto=format&fit=crop&w=600&q=80",
+      description: "Relax by the calm waters of Pawna Lake in Thakursai. Offers dome tents, delicious local Maharashtrian barbecue, acoustic music nights, and scenic views of Tikona Fort."
     },
   ];
+
+  const displayCampsites = initialCampsites && initialCampsites.length > 0
+    ? initialCampsites.map((item) => ({
+        id: item.id,
+        title: item.title,
+        location: item.location,
+        price: typeof item.price === "number" ? `₹${item.price.toLocaleString()}` : item.price,
+        rating: Number(item.rating || 5.0),
+        reviewsCount: Number(item.reviewsCount || item.reviews_count || 0),
+        tags: item.tags || [],
+        image: item.image_url || item.image || "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=600&q=80",
+        description: item.description || "Enjoy fully set up dome tents, fire pits, pristine washrooms, and local hikes guided by our community campsite operators."
+      }))
+    : fallbackCampsites;
 
   return (
     <section id="campsites" className="py-24 border-t border-border/50">
@@ -61,7 +92,7 @@ export function CampsitesPreview() {
 
         {/* Grid List */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {campsites.map((site) => (
+          {displayCampsites.map((site) => (
             <Card
               key={site.id}
               hoverEffect
@@ -70,7 +101,7 @@ export function CampsitesPreview() {
               {/* Image Container with overlay details */}
               <div className="relative h-56 w-full overflow-hidden bg-muted group">
                 <img
-                  src={site.image}
+                   src={site.image}
                   alt={site.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   loading="lazy"
@@ -106,7 +137,7 @@ export function CampsitesPreview() {
                   ))}
                 </div>
                 <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3">
-                  Enjoy fully set up dome tents, fire pits, pristine washrooms, and local hikes guided by our community campsite operators.
+                  {site.description}
                 </p>
               </CardContent>
 
