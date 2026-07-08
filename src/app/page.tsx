@@ -5,6 +5,8 @@ import { Features } from "@/components/landing/features";
 import { Stats } from "@/components/landing/stats";
 import { CampsitesPreview } from "@/components/landing/campsites-preview";
 import { EventsPreview } from "@/components/landing/events-preview";
+import { Testimonials } from "@/components/landing/testimonials";
+import { CtaBanner } from "@/components/landing/cta-banner";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function Home() {
@@ -33,6 +35,8 @@ export default async function Home() {
       <Stats />
       <CampsitesPreview initialCampsites={dbCampsites || []} />
       <EventsPreview initialEvents={dbEvents || []} />
+      <Testimonials />
+      <CtaBanner />
     </div>
   );
 }
